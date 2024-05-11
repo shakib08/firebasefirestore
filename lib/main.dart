@@ -26,8 +26,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: Text("Home Page"), centerTitle: true,),
-        body: home(),
+        appBar: AppBar(
+          title: Text("Home Page", style: TextStyle(color: Colors.white),), 
+          centerTitle: true, 
+          backgroundColor: Colors.blue,),
+          body: home(),
       ),
     );
   }

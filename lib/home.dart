@@ -1,3 +1,5 @@
+import 'package:firebase_cli/customButton.dart';
+import 'package:firebase_cli/showdata.dart';
 import 'package:firebase_cli/textfield.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class home extends StatefulWidget {
   const home({super.key});
-
   @override
   State<home> createState() => _homeState();
 }
@@ -17,13 +18,10 @@ class _homeState extends State<home> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-
   Future<void> sendData() async{
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     String name = nameController.text.trim();
-
-
     if(email.isNotEmpty && password.isNotEmpty && name.isNotEmpty){
       try{
         Map<String,dynamic>users={
@@ -40,12 +38,9 @@ class _homeState extends State<home> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to save data: $e"))); 
       }   
     }
-
     else{
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fillup the requirements"))); 
     }
-
-
   }
 
 
@@ -53,22 +48,35 @@ class _homeState extends State<home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            textfield(hintText: "Email", controller: emailController,), 
-            SizedBox(height: size.height*0.02,), 
-            textfield(hintText: "Password", controller: passwordController,),
-            SizedBox(height: size.height*0.02,), 
-            textfield(hintText: "Name", controller: nameController,), 
-            SizedBox(height: size.height*0.02,),
-            ElevatedButton(
-            onPressed: (){
-              sendData(); 
-            }, 
-            child: Text("Submit"), 
-            )
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: size.height*0.2,), 
+                textfield(hintText: "Email", controller: emailController,), 
+                SizedBox(height: size.height*0.02,), 
+                textfield(hintText: "Password", controller: passwordController,),
+                SizedBox(height: size.height*0.02,), 
+                textfield(hintText: "Name", controller: nameController,), 
+                SizedBox(height: size.height*0.02,),
+                ElevatedButton(
+                onPressed: (){
+                  sendData(); 
+                }, 
+                child: Text("Submit"), 
+                ), 
+                SizedBox(height: size.height*0.05), 
+                customButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => showdata())); 
+                  }, 
+                  hintText: "Next Page",
+                  backgroundColor: Colors.black
+                  )
+              ],
+            ),
+          ),
         ),
       ),
     );
